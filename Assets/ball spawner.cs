@@ -18,7 +18,10 @@ public class ballSpawner : MonoBehaviour
             Input.GetMouseButtonDown(0))
         {
             if (projectilePrefab == null || spawnPoint == null)
+            {
+                Debug.LogError("Projectile Prefab or Spawn Point is missing!");
                 return;
+            }
 
             GameObject projectile = Instantiate(
                 projectilePrefab,
@@ -26,15 +29,31 @@ public class ballSpawner : MonoBehaviour
                 spawnPoint.rotation
             );
 
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            Rigidbody rb = projectile.GetComponentInChildren<Rigidbody>();
 
-            if (rb != null)
+            if (rb == null)
             {
-                float velocity = 0.5f * acceleration * time
-                                 * targetVelocity * i;
-
-                rb.linearVelocity = spawnPoint.forward * velocity;
+                Debug.LogError("No Rigidbody found on projectile!");
+                Destroy(projectile);
+                return;
             }
+
+            float velocity = 0.5f * acceleration * time
+                             * targetVelocity * i;
+
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.linearVelocity = spawnPoint.forward * velocity;
+
+            BulletRotation bulletRotation =
+                projectile.GetComponent<BulletRotation>();
+
+            if (bulletRotation == null)
+            {
+                bulletRotation = projectile.AddComponent<BulletRotation>();
+            }
+
+            Debug.Log("Projectile launched. Velocity: " + rb.linearVelocity);
         }
     }
 }
