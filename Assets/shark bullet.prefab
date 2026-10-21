@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1387331644029603709}
   m_Layer: 0
   m_Name: shark bullet
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

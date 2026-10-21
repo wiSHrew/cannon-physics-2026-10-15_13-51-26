@@ -14,8 +14,7 @@ public class ballSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) ||
-            Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             if (projectilePrefab == null || spawnPoint == null)
             {

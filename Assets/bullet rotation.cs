@@ -4,6 +4,7 @@ using UnityEngine;
 public class BulletRotation : MonoBehaviour
 {
     private Rigidbody rb;
+    private Collider bulletCollider;
     private bool hasHit = false;
 
     [SerializeField] private Vector3 rotationOffset = new Vector3(0f, 90f, 0f);
@@ -12,6 +13,7 @@ public class BulletRotation : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        bulletCollider = GetComponent<Collider>();
     }
 
     void FixedUpdate()
@@ -33,6 +35,19 @@ public class BulletRotation : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (hasHit)
+            return;
+
         hasHit = true;
+        Invoke(nameof(DisableCollider), 1f);
+        Destroy(gameObject, 2f);
+    }
+
+    private void DisableCollider()
+    {
+        if (bulletCollider != null)
+        {
+            bulletCollider.enabled = false;
+        }
     }
 }
